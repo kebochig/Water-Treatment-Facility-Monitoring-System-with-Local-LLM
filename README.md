@@ -11,12 +11,12 @@ A comprehensive real-time monitoring system for water treatment facilities that 
 │                 │    │                 │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
-         │              ┌─────────────────┐              │
+         │              ┌────────▼────────┐              │
          └─────────────▶│     Redis       │◀─────────────┘
                         │   Message Bus   │
                         └─────────────────┘
                                  │
-                        ┌─────────────────┐
+                        ┌────────▼────────┐
                         │   REST API      │
                         │   Server        │
                         └─────────────────┘
@@ -51,7 +51,7 @@ docker-compose ps
 curl http://localhost:8000/health
 ```
 
-3. **Access the API:**
+4. **Access the API:**
 - API Documentation: http://localhost:8000/docs
 - Health Check: http://localhost:8000/health
 - System Status: http://localhost:8000/status
