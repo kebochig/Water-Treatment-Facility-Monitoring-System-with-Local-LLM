@@ -1,0 +1,29 @@
+FROM python:3.11-slim
+
+# Install system dependencies for llama-cpp-python compilation
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    pkg-config \
+    libopenblas-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Set environment variables for llama-cpp-python compilation
+# ENV CMAKE_ARGS="-DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS"
+# ENV FORCE_CMAKE=1
+
+# Install requirements separately to leverage Docker cache
+COPY requirements-llm.txt .
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements-llm.txt
+
+COPY src/ ./src/
+
+# Create directory for models
+RUN mkdir -p /app/data/models
+
+CMD ["python", "-m", "src.llm_summarizer"]

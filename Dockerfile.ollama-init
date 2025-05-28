@@ -1,0 +1,10 @@
+FROM alpine:3.19
+
+# Install curl and bash
+RUN apk add --no-cache curl bash
+
+# Copy your script
+COPY pull-model.sh /pull-model.sh
+RUN chmod +x /pull-model.sh
+
+CMD ["/pull-model.sh"]

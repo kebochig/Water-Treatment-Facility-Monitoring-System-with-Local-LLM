@@ -1,0 +1,14 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+redis==5.0.1
+langchain
+langchain-community
+# langchain-ollama==0.3.3
+langchain-core
+# llama-cpp-python==0.2.11
+httpx
+requests==2.31.0
+python-multipart==0.0.6
+pydantic
+ollama
+
