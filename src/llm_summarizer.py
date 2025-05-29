@@ -67,6 +67,13 @@ class LLMSummaryGenerator:
                         {anomalies}
 
                         Current Sensor Status: {sensor_status}
+                        Kindly state and analyse current sensor status.
+
+                         Note the following normal sensor readings:
+
+                        Temperature Normal range is between 10°C to 35°C, spike threshold (far off normal range) greater than 45°C, drift threshold (slightly above normal range) greater than 38°C
+                        Pressure Normal range is between 1.0 bar to 3.0 bar, spike threshold greater than 4.0 bar, drift threshold greater than 3.5 bar
+                        Flow Normal range is between  20 L/min to 100 L/min, spike threshold greater than 120 L/min, drift threshold greater than 110 L/min
 
                         Please provide a professional summary in 2-3 sentences that explains:
                         1. What anomalies occurred and when

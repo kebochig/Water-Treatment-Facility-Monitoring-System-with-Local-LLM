@@ -39,6 +39,10 @@ cd wtf-monitoring
 
 2. **Start the system from terminal:**
 ```bash
+# Stop existing containers
+docker-compose down
+
+# Run containers
 docker-compose up -d
 ```
 
@@ -79,7 +83,7 @@ Returns recent anomalies detected by the system.
 ```
 
 ### GET /summary
-Returns the latest LLM-generated summary of system status and anomalies. Summaries are generated within a 3 mins terminal
+Returns the latest LLM-generated summary of system status and anomalies. Summaries are generated within a 3 mins terminal.
 
 **Response:**
 ```json
@@ -89,6 +93,9 @@ Returns the latest LLM-generated summary of system status and anomalies. Summari
   "generated_by": "llm_summarizer"
 }
 ```
+Note that before you can use this service, the LLM model needs to be download in the Ollama service model bank which is triggered as part of the environment setup.
+Run `docker-compose logs ollama-init` to check model download status.
+
 
 ### GET /status
 Returns overall system health and component status.
@@ -107,6 +114,24 @@ Returns overall system health and component status.
 
 ### GET /metrics
 Returns detailed system metrics and anomaly statistics on the last 100 anomalies for quick reporting.
+
+**Response:**
+```json
+{
+  "total_anomalies": 100,
+  "anomalies_by_type": {
+    "spike": 79,
+    "drift": 7,
+    "dropout": 14
+  },
+  "anomalies_by_parameter": {
+    "temperature": 4,
+    "pressure": 8,
+    "flow": 74
+  },
+  "last_update": "2025-05-19T14:11:18.009010+00:00"
+}
+```
 
 ### GET /health
 Simple health check endpoint for monitoring.
@@ -250,7 +275,7 @@ docker-compose logs -f llm
 **LLM Service Won't Start:**
 - Ensure sufficient memory (4GB+)
 - Check Ollama container logs for server status: `docker-compose logs ollama`
-- Confirm LLM models available: `docker exec -it wtf-ollama] ollama list`
+- Confirm LLM models available: `docker exec -it [ollama_container_name] ollama list`
 
 **No Anomalies Detected:**
 - Check sensor simulator is running: `docker-compose logs sensor`
