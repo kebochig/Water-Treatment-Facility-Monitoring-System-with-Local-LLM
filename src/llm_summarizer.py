@@ -48,7 +48,6 @@ class LLMSummaryGenerator:
         repeat_penalty=1.1,
         base_url="http://ollama:11434"
         )
-        logger.info(self.llm)
 
         # Summary storage
         self.latest_summary = ""
@@ -58,30 +57,47 @@ class LLMSummaryGenerator:
         # Prompt template for anomaly summarization
         self.prompt_template = PromptTemplate(
             input_variables=["time_period", "anomalies", "sensor_status"],
-            template="""You are analyzing water treatment facility sensor data. Please provide a clear, concise summary of the system status.
+            template="""   You are a water treatment facility monitoring system analyzing sensor data for operational status assessment. Your role is to provide clear, actionable insights for facility operators using the following instructions.
 
-                        Time Period: {time_period}
-                        Sensor ID: wtf-pipe-1
+                            ## Analysis Parameters
+                            - **Time Period:** {time_period}
+                            - **Sensor ID:** wtf-pipe-1
+                            - **Detected Anomalies:** {anomalies}
+                            - **Current Sensor reading:** {sensor_status}
 
-                        Anomalies Detected:
-                        {anomalies}
+                            ## Normal Operating Ranges & Thresholds
 
-                        Current Sensor Status: {sensor_status}
-                        Kindly state and analyse current sensor status.
+                            ### Temperature
+                            - **Normal Range:** 10°C - 35°C
+                            - **Drift Threshold:** >38°C (slightly elevated)
+                            - **Spike Threshold:** >45°C (critically high)
 
-                         Note the following normal sensor readings:
+                            ### Pressure
+                            - **Normal Range:** 1.0 - 3.0 bar
+                            - **Drift Threshold:** >3.5 bar (slightly elevated)
+                            - **Spike Threshold:** >4.0 bar (critically high)
 
-                        Temperature Normal range is between 10°C to 35°C, spike threshold (far off normal range) greater than 45°C, drift threshold (slightly above normal range) greater than 38°C
-                        Pressure Normal range is between 1.0 bar to 3.0 bar, spike threshold greater than 4.0 bar, drift threshold greater than 3.5 bar
-                        Flow Normal range is between  20 L/min to 100 L/min, spike threshold greater than 120 L/min, drift threshold greater than 110 L/min
+                            ### Flow Rate
+                            - **Normal Range:** 20 - 100 L/min
+                            - **Drift Threshold:** >110 L/min (slightly elevated)
+                            - **Spike Threshold:** >120 L/min (critically high)
 
-                        Please provide a professional summary in 2-3 sentences that explains:
-                        1. What anomalies occurred and when
-                        2. The current system status
-                        3. Any operational implications
-                        4. Overall system status
+                            Sensor dropout indcate abnormal behaviour as there are no readings within the specified duration
 
-                        Keep the summary under 200 words, factual, human-readable and actionable for facility operators.
+                            ## Required Analysis Output
+
+                            1. **Anomaly Assessment:** Identify what anomalies occurred, their severity level, and timeframe
+                            2. **Current reading Evaluation:** Compare current reading against normal ranges and classify as normal, drift, or spike conditions
+                            3. **Recommended Actions:** Suggest specific next steps for operators (monitoring, maintenance, or emergency response)
+                            4. **Overall System Health:** Provide a clear status classification (Normal, Caution, Alert, Critical)
+
+                            ## Output Requirements
+                            - Use clear, technical language appropriate for facility operators
+                            - Prioritize safety-critical information
+                            - Include specific numerical values when relevant
+                            - End with a one-sentence system status summary
+                            - Maintain professional, factual tone without speculation
+                            - Keep Within 150-200 words
                         """
                                 )
                                 
@@ -138,7 +154,7 @@ class LLMSummaryGenerator:
             stream_data = self.redis_client.get("last_reading") #self.redis_client.xrevrange('sensor_readings', count=1)
             if stream_data:
                 reading = json.loads(stream_data)
-            logger.info(f"Sensor - {stream_data} >>>> {reading}")
+            logger.info(f"Sensor - {reading}")
             if not stream_data:
                 logger.info("No recent sensor data available")
                 return "No recent sensor data available"
