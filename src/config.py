@@ -34,7 +34,7 @@ class AnomalyConfig:
 
 @dataclass
 class LLMConfig:
-    model_name: str = "llama3.2:1b"  # Default Ollama model
+    model_name: str = "deepseek-r1:1.5b"  # Default Ollama model
     max_tokens: int = 512
     temperature: float = 0.3
     ollama_url: str = "http://ollama:11434"  # Ollama service URL

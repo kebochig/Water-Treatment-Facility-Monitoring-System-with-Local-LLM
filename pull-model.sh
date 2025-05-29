@@ -13,6 +13,6 @@ echo "✅ Ollama is up. Pulling model..."
 
 curl -X POST http://ollama:11434/api/pull \
   -H "Content-Type: application/json" \
-  -d '{"name": "llama3.2:1b"}'
+  -d '{"name": "deepseek-r1:1.5b"}'
 
 echo "✅ Model pulled successfully"

@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, timezone, timedelta
 from typing import List, Dict, Any, Optional
 import redis
+import re
 import threading
 from collections import deque
 from langchain_community.llms import Ollama
@@ -32,15 +33,8 @@ class LLMSummaryGenerator:
                  ollama_host: str = "ollama", ollama_port: int = 11434):
         self.redis_client = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
         self.running = False
-        
-        # Initialize Ollama LLM
-        # self.llm = Ollama(
-        #     base_url=f"http://{ollama_host}:{ollama_port}",
-        #     model="llama3.2:3b",  # Using Llama 3.2 3B model
-        #     temperature=0.1
-        # )
 
-        model_name = "llama3.2:1b" 
+        model_name = "deepseek-r1:1.5b" #"llama3.2:1b" 
         self.llm = Ollama(
         model=model_name,
         temperature=0.3,
@@ -48,6 +42,7 @@ class LLMSummaryGenerator:
         repeat_penalty=1.1,
         base_url="http://ollama:11434"
         )
+        logger.info(self.llm)
 
         # Summary storage
         self.latest_summary = ""
@@ -225,6 +220,9 @@ class LLMSummaryGenerator:
                 summary = summary.strip()
             else:
                 summary = str(summary).strip()
+
+            if '<think>' in summary:
+                summary = re.sub(r"<think>.*?</think>\s*", "", summary, flags=re.DOTALL)
             
             # Store summary
             with self.summary_lock:
