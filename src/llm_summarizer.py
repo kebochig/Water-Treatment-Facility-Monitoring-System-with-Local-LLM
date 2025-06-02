@@ -92,7 +92,8 @@ class LLMSummaryGenerator:
                             - Include specific numerical values when relevant
                             - End with a one-sentence system status summary
                             - Maintain professional, factual tone without speculation
-                            - Keep Within 150-200 words
+                            
+                            Ensure response is within 150-200 words.
                         """
                                 )
                                 
@@ -230,7 +231,8 @@ class LLMSummaryGenerator:
                 self.summary_history.append({
                     "timestamp": now.isoformat(),
                     "summary": summary,
-                    "anomaly_count": len(anomalies)
+                    "anomaly_count": len(anomalies),
+                    "generated_by": "LLM Assistant"
                 })
             
             # Store in Redis

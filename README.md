@@ -90,7 +90,8 @@ Returns the latest LLM-generated summary of system status and anomalies. Summari
 {
   "summary": "Between 10:20 and 10:22, a temperature drift occurred on wtf-pipe-1...",
   "timestamp": "2025-05-19T10:25:00Z",
-  "generated_by": "llm_summarizer"
+  "generated_by": "llm_summarizer",
+  "anomaly_count": 100
 }
 ```
 Note that before you can use this service, the LLM model needs to be download in the Ollama service model bank which is triggered as part of the environment setup.
@@ -108,7 +109,8 @@ Returns overall system health and component status.
   "llm_active": true,
   "api_active": true,
   "last_reading_time": "2025-05-19T10:25:00Z",
-  "anomaly_count_24h": 12
+  "anomaly_count_24h": 97,
+  "uptime_seconds": 253
 }
 ```
 
