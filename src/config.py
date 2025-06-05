@@ -25,12 +25,6 @@ class AnomalyConfig:
     drift_duration: int = 15  # seconds
     dropout_timeout: int = 10  # seconds
 
-# @dataclass
-# class LLMConfig:
-#     model_path: str = "/app/data/models/mistral-7b-instruct-v0.1.Q4_K_M.gguf"
-#     model_url: str = "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf"
-#     max_tokens: int = 512
-#     temperature: float = 0.3
 
 @dataclass
 class LLMConfig:

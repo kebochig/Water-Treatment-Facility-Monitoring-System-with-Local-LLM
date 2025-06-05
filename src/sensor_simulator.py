@@ -70,7 +70,7 @@ class SensorSimulator:
         elif self.drift_state['drift_type'] == 'pressure':
             self.drift_state['drift_values']['pressure'] = random.uniform(4.5, 5.5)
         else:  # flow
-            self.drift_state['drift_values']['flow'] = random.uniform(120, 140)
+            self.drift_state['drift_values']['flow'] = random.uniform(110, 140)
             
         logger.info(f"Starting drift anomaly: {self.drift_state['drift_type']} for {self.drift_state['target_duration']:.1f}s")
     

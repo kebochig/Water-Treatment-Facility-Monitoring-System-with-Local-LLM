@@ -61,7 +61,9 @@ class SensorDataManager:
         try:
             stream_data = self.redis_client.get("last_reading")
             if stream_data:
+                logger.info(f"Latest Sensor Reading -> {json.loads(stream_data)}")
                 return json.loads(stream_data)
+            logger.info(f"No Sensor Reading available -> ")
             return None
         except Exception as e:
             logger.error(f"Error retrieving sensor reading: {e}")
@@ -598,7 +600,7 @@ class LLMSummaryGenerator:
             # Store the summary
             self._store_generated_summary(summary, inputs["anomaly_count"])
             
-            logger.info(f"Generated summary: {summary[:50]}...")
+            logger.info(f"Generated summary: {summary[:250]}...")
             return summary
             
         except Exception as e:
@@ -706,7 +708,7 @@ class LLMSummaryGenerator:
         
         # Wait for Ollama to be ready
         if not self.wait_for_ollama():
-            logger.error("Cannot start summary generator - Ollama not available")
+            logger.error("Cannot start summary generator - Ollama not available. Use /metrics endpoint for anomal breakdown")
             return
         
         # Generate initial summary

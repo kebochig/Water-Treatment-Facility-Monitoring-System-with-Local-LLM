@@ -164,7 +164,7 @@ Detects sensor communication failures:
 - No data received for >10 seconds
 
 ### LLM Configuration
-- **Model:** Llama 3.2 1B
+- **Model:** deepseek-r1:1.5b
 - **Context Length:** 128,000 tokens
 - **Max Response:** 2,048 tokens
 - **Temperature:** 0.3 (focused, less creative responses)
